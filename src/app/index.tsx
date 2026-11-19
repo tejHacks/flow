@@ -1,4 +1,4 @@
-import { router } from 'expo-router';
+import { router, Redirect } from 'expo-router';
 import { useState } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 
@@ -14,6 +14,12 @@ interface Session {
 }
 
 export default function Home() {
+  const [onboarded, , onboardedReady] = useStoredState('onboarded', false);
+  if (onboardedReady && !onboarded) return <Redirect href="/onboarding" />;
+  return <HomeScreen />;
+}
+
+function HomeScreen() {
   const c = usePalette();
   const [dump, setDump] = useState('');
   const [busy, setBusy] = useState(false);
